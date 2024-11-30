@@ -1,16 +1,30 @@
-## Hi there 👋
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
-<!--
-**Kuko0419/Kuko0419** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-Here are some ideas to get you started:
+contract MyCustomToken is ERC20 {
+    address public owner;
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+    constructor() ERC20("MyCustomToken", "MCT") {
+        owner = msg.sender;
+        _mint(msg.sender, 1000000 * 10 ** decimals()); // Mint 1 million tokens to the deployer
+    }
+
+    // Custom minting function (only owner can mint new tokens)
+    function mint(address to, uint256 amount) external {
+        require(msg.sender == owner, "Only the owner can mint");
+        _mint(to, amount);
+    }
+
+    // Override _transfer for custom behavior (e.g., miner rewards or fees)
+    function _transfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal override {
+        super._transfer(from, to, amount);
+        // Custom logic can be added here (e.g., mint rewards, charge fees)
+    }
+}
+-
