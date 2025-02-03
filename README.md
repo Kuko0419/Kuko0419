@@ -1,4 +1,4 @@
-# MyFamilyWallet 💰  
+# lastwallet.sol 💰  
 A Solidity-based wallet contract that allows owners to set withdrawal limits and approve wallets.
 
 ## Features
